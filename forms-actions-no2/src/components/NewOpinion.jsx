@@ -1,21 +1,9 @@
-import { useActionState } from "react";
-
-async function sendDataToBackEnd(url, data) {
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    throw new Error("There is error while uploading Post. Try Again!");
-  }
-  return true;
-}
+import { useActionState, use } from "react";
+import { OpinionsContext } from "../store/opinions-context";
 
 export function NewOpinion() {
-  function handleSubmit(prevFormState, formData) {
+  const { addOpinion } = use(OpinionsContext);
+  async function handleSubmit(prevFormState, formData) {
     const userName = formData.get("userName");
     const title = formData.get("title");
     const body = formData.get("body");
@@ -40,11 +28,7 @@ export function NewOpinion() {
         },
       };
     }
-    sendDataToBackEnd("http://localhost:3000/opinions", {
-      userName,
-      title,
-      body,
-    });
+    await addOpinion({ userName, title, body });
     return {
       errors: null,
     };
