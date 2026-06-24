@@ -17,8 +17,11 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
     await downvoteOpinion(id);
   }
 
-  const [upvoteFormAction, upvotePending] = useActionState(upvoteAction);
-  const [downvoteFormAction, downvotePending] = useActionState(downvoteAction);
+  const [upvoteFormState, upvoteFormAction, upvotePending] =
+    useActionState(upvoteAction);
+  const [downvoteFormState, downvoteFormAction, downvotePending] =
+    useActionState(downvoteAction);
+  (console.log(upvoteFormState), downvoteFormState);
   return (
     <article>
       <header>
