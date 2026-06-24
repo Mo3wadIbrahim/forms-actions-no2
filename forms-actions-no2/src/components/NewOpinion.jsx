@@ -1,5 +1,6 @@
 import { useActionState, use } from "react";
 import { OpinionsContext } from "../store/opinions-context";
+// import Submit from "./Submit";
 
 export function NewOpinion() {
   const { addOpinion } = use(OpinionsContext);
@@ -33,7 +34,7 @@ export function NewOpinion() {
       errors: null,
     };
   }
-  const [formState, formAction] = useActionState(handleSubmit, {
+  const [formState, formAction, pending] = useActionState(handleSubmit, {
     errors: null,
   });
 
@@ -72,9 +73,10 @@ export function NewOpinion() {
             defaultValue={formState.entredValues?.body}
           ></textarea>
         </p>
-
         <p className="actions">
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={pending}>
+            {pending ? "Submitting..." : "Submit"}
+          </button>
         </p>
       </form>
       {formState.errors && (
